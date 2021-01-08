@@ -4,6 +4,8 @@ const express = require("express");//require express, bodyparser and ejs to use 
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 
+const _ = require('lodash');//require lodash library to use it
+
 //just bunch of text that we are going to insert into our pages
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
 const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
@@ -27,6 +29,28 @@ app.get('/',function(req,res){
     posts:posts//pass over posts array, once we render home route we have access to posts
   });//pass in value for home.ejs marker(homeStartContent)
   //we give value homeStartingContent, its js object we pass. so we have key and value for that key
+
+});
+
+//when user goes to /posts and we are adding parametre "testing", you can call parametre whatever
+//you wish. we will access whatever goes after /posts/...
+app.get('/posts/:postName', function(req,res){
+  //it will print whatever goes after /posts/... , last part will be logged
+  let requestedTitle = _.lowerCase(req.params.postName);//we tap into request params which gives us
+  //acces to all parametres that we have colon in front of it. and specify name of parameetre
+
+  //go throug all posts and check
+  for(let a=0;a<posts.length;a++){
+//compare this requestedTitle against  all the titles that we have in posts array
+//post array contains bunch of post objects, with title and content key and values
+    let postTitle = _.lowerCase(posts[a].postTitle);//convert posts at index a title to lower case
+    //it also throws away all the hyphens or underscores, just clear text, as long as two strings match
+    if(requestedTitle===postTitle){
+//render post.ejs, we pass to markers postTitle and postBody values: posts[a].postTitle and posts[a].postDescription
+      res.render('post',{postTitle:posts[a].postTitle, postBody:posts[a].postDescription});
+      //basically pass JS object we specify keys and values that we want to pass, key is marker
+    }
+  }
 
 });
 

@@ -9,6 +9,11 @@
   <% for(var a=0;a<posts.length;a++){ %>
     <!--tapping into posts at index a, tapping into that object postTitle -->
     <%console.log(posts[a].postTitle);%>
+    <!--in order for this to work we need to put in the the value
+  of post.title into our h1 and value of post.body to p
+so we have to use ejs tags that ourputs value into the template -->
+    <h1><%=posts[a].postTitle%></h1>
+    <p><%=posts[a].postDescription%></p>
   <%} %>
   <!-- we pass posts array to this marker var  -->
 
