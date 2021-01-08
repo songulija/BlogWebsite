@@ -4,6 +4,14 @@
   <!-- ejs marker. so we could provide value when going to home.ejs -->
   <p><%=homeStartContent%></p>
   <!--name of var that we are going to pass is homeStartContent-->
+
+  <!--we loop through array of posts that we pass to home.ejs  -->
+  <% for(var a=0;a<posts.length;a++){ %>
+    <!--tapping into posts at index a, tapping into that object postTitle -->
+    <%console.log(posts[a].postTitle);%>
+  <%} %>
+  <!-- we pass posts array to this marker var  -->
+
 <%- include('partials/footer.ejs'); -%>
 <!--including footer.ejs template to our home.ejs
 specifying our path, it already looks to views folder, and we just add path-->

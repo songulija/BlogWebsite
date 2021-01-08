@@ -1,0 +1,17 @@
+<%- include('partials/header')-%>
+<!-- including footer and header, writing path,
+we already are in views folder, and we need to go to partials/header -->
+<h1>Compose</h1>
+<!--when click submit it will post to compose route route, it will submit our form -->
+<form action="/compose" method="post">
+  <!-- place everything in container from-group give bootstrap classes to inputs
+and button, we want to seperate button from this container to make more space between -->
+  <div class="form-group">
+    <label>Title</label>
+    <input type="text" class="form-control" name="postTitle" value="">
+    <label>Description</label>
+    <textarea name="postBody" class="form-control" rows="5" cols="30"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary" name="button">Add</button>
+</form>
+<%- include('partials/footer')-%>

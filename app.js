@@ -9,6 +9,8 @@ const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui 
 const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.";
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
+const posts = [];//create array, that will store post objects, its global var
+
 const app = express();//function that represents express
 
 app.set('view engine', 'ejs');//use view engine ejs
@@ -20,9 +22,15 @@ app.use(express.static("public"));// our static files held in public folder
 //when user goes to home route, it will trigger this callback function
 app.get('/',function(req,res){
   //then render home.ejs file, this is result that we send back
-  res.render('home',{homeStartContent:homeStartingContent});//pass in value for home.ejs marker(homeStartContent)
+  res.render('home',{
+    homeStartContent:homeStartingContent,
+    posts:posts//pass over posts array, once we render home route we have access to posts
+  });//pass in value for home.ejs marker(homeStartContent)
   //we give value homeStartingContent, its js object we pass. so we have key and value for that key
+
 });
+
+
 
 //when going to about route trigger this callback function
 app.get('/about', function(req,res){
@@ -33,6 +41,27 @@ app.get('/about', function(req,res){
 app.get('/contact', function(req,res){
   res.render('contact',{ContactStartContent:contactContent});//pass in value for contact.ejs marker(ContactStartContent)
   //we give value contactContent, its js object we pass. so we have key and value for that key
+});
+
+//when going to compose route it will trigger this callback function
+app.get('/compose', function(req,res){
+  res.render('compose');//render compose.ejs
+});
+
+//when user makes post to compose route it will trigger this callback function
+app.post('/compose',function(req,res){
+  //store postTitle and postBody from in js object
+  const post = {//keys and values
+    postTitle:req.body.postTitle,//tap into post request body with help of bodyParser
+    postDescription:req.body.postBody//setting postDescription key a value, that we got from post request body
+    //body parser allows to get body of request from any page
+   };
+  //adding post object to array of posts
+  posts.push(post);
+  //and we will redirect to home route
+  res.redirect('/');//and inside app..get home route we will pass posts array
+
+
 });
 
 
