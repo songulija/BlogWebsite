@@ -13,7 +13,12 @@
   of post.title into our h1 and value of post.body to p
 so we have to use ejs tags that ourputs value into the template -->
     <h1><%=posts[a].postTitle%></h1>
-    <p><%=posts[a].postDescription%></p>
+    <p>
+      <%=((posts[a].postDescription).substring(0,100)) + "..."%>
+      <a href="/posts/<%=posts[a].postTitle%>">Read More</a>
+      <!--to insert posts[a].postTitle we need EJS tags to write some code-->
+    </p>
+
   <%} %>
   <!-- we pass posts array to this marker var  -->
 
